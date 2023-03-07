@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "640573698011",
+    "project_id": "whatsify-c52d0",
+    "storage_bucket": "whatsify-c52d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640573698011:android:7960808075c36d545681fe",
+        "android_client_info": {
+          "package_name": "com.codespacepro.whatsify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "640573698011-1q6bsag13h3o73v9fhrfq92h7du5ubor.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeWw0iUPZJpu4rDzzuIUbG2FJgOqLaHU4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "640573698011-1q6bsag13h3o73v9fhrfq92h7du5ubor.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
