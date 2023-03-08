@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_new_group"
+        android:title="New Group" />
+    <item
+        android:id="@+id/mav_new_broadcast"
+        android:title="New broadcast" />
+    <item
+        android:id="@+id/nav_new_linked_devices"
+        android:title="Linked Devices" />
+    <item
+        android:id="@+id/nav_new_starred_messages"
+        android:title="Starred Messages" />
+    <item
+        android:id="@+id/nav_settings"
+        android:title="Settings" />
+
+</menu>

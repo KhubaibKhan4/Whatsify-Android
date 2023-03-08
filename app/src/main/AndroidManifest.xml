@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Whatsify"
         tools:targetApi="31">
+        <activity
+            android:name=".Activities.ProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.LoginActivity"
             android:exported="false" />
@@ -28,7 +35,11 @@
         </activity>
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
