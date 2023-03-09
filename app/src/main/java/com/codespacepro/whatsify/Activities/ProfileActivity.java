@@ -3,17 +3,14 @@ package com.codespacepro.whatsify.Activities;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,8 +25,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.codespacepro.whatsify.Models.Users;
 import com.codespacepro.whatsify.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,11 +36,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -108,7 +106,7 @@ public class ProfileActivity extends AppCompatActivity {
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //submitdata();
+                submitdata();
             }
         });
 
@@ -309,6 +307,62 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void submitdata() {
 
+        Dialog customeDialog = new Dialog(ProfileActivity.this);
+        customeDialog.setContentView(R.layout.bottom_sheet_dialog);
+        customeDialog.setCancelable(false);
+        customeDialog.show();
+
+        Button Update = customeDialog.findViewById(R.id.btnUpdate);
+        MaterialButton Cancel = customeDialog.findViewById(R.id.btnCancel);
+
+        TextInputEditText Username = customeDialog.findViewById(R.id.edit_username_update);
+        TextInputEditText FullName = customeDialog.findViewById(R.id.edit_fullname_update);
+        TextInputEditText Email = customeDialog.findViewById(R.id.edit_email_update);
+        TextInputEditText Password = customeDialog.findViewById(R.id.edit_pass_update);
+
+        String usernameupdate = Username.getText().toString();
+        String fullnameupdate = FullName.getText().toString();
+        String emailupdate = Email.getText().toString();
+        String passwordupdate = Password.getText().toString();
+
+        if (TextUtils.isEmpty(usernameupdate)) {
+            Username.setError("Can't be Empty");
+        }
+
+        if (TextUtils.isEmpty(fullname)) {
+            Username.setError("Can't be Empty");
+        }
+
+        if (TextUtils.isEmpty(email)) {
+            Username.setError("Can't be Empty");
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            Username.setError("Can't be Empty");
+        }
+
+
+        Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                customeDialog.dismiss();
+                Toast.makeText(ProfileActivity.this, "Update Cancelled", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Users users = new Users(usernameupdate, fullnameupdate, emailupdate, passwordupdate);
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                DatabaseReference userRef = database.getReference("Users/" + mAuth.getCurrentUser().getUid());
+
+
+                userRef.setValue(users);
+
+            }
+        });
 
     }
 
@@ -324,7 +378,7 @@ public class ProfileActivity extends AppCompatActivity {
         Gender = (TextView) findViewById(R.id.gender_profile);
 
         Submit = (Button) findViewById(R.id.btnSubmit);
-        Logout = (MaterialButton) findViewById(R.id.btnLogout);
+        Logout = (MaterialButton) findViewById(R.id.btnCancel);
     }
 
     @Override

@@ -19,7 +19,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -58,8 +57,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void init() {
 
-        Email = (TextInputEditText) findViewById(R.id.edit_email_login);
-        Password = (TextInputEditText) findViewById(R.id.edit_pass_login);
+        Email = (TextInputEditText) findViewById(R.id.edit_email_update);
+        Password = (TextInputEditText) findViewById(R.id.edit_pass_update);
         Login = (Button) findViewById(R.id.btnlogin);
         LoginToSignup = (TextView) findViewById(R.id.login_to_signup_txt);
 

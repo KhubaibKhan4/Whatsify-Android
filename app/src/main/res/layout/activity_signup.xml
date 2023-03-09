@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/loginTxt"
+        android:id="@+id/UpdateProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -25,7 +25,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/loginTxt"
+        android:layout_below="@+id/UpdateProfile"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:elevation="10dp"
@@ -34,7 +34,7 @@
         app:hintTextColor="#009688">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_username"
+            android:id="@+id/edit_username_update"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawableEnd="@drawable/baseline_person_24"
@@ -57,7 +57,7 @@
         app:hintTextColor="#009688">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_fullname"
+            android:id="@+id/edit_fullname_update"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawableEnd="@drawable/fullname_icon"
@@ -80,7 +80,7 @@
         app:hintTextColor="#009688">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_email_login"
+            android:id="@+id/edit_email_update"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawableEnd="@drawable/baseline_email_24"
@@ -103,7 +103,7 @@
         app:hintTextColor="#009688">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_pass_login"
+            android:id="@+id/edit_pass_update"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawableEnd="@drawable/baseline_password_24"
@@ -127,7 +127,7 @@
         app:hintTextColor="#009688">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_cpass"
+            android:id="@+id/edit_cpass_update"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawableEnd="@drawable/baseline_password_24"
@@ -179,7 +179,7 @@
 
 
     <Button
-        android:id="@+id/btnSignup"
+        android:id="@+id/btnUpdate"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/radiogroup"
@@ -194,7 +194,7 @@
         android:id="@+id/signup_to_login_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btnSignup"
+        android:layout_below="@id/btnUpdate"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:text="Already Have Account? LOGIN"

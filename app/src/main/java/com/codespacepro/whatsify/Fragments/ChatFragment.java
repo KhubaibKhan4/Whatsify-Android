@@ -41,7 +41,6 @@ public class ChatFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
 
 
-
     public ChatFragment() {
         // Required empty public constructor
     }
@@ -74,7 +73,9 @@ public class ChatFragment extends Fragment {
                 userList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Chat chat = dataSnapshot.getValue(Chat.class);
-                    if (!mAuth.getCurrentUser().getUid().equals(mAuth.getCurrentUser().getUid())) { // exclude current user
+                    if (mAuth.getCurrentUser().getUid().equals(mAuth.getCurrentUser().getUid())) { // exclude current user
+
+                    } else {
                         Chat chat1 = new Chat(chat.getProfile(), chat.getFullname());
                         userList.add(chat1);
                     }

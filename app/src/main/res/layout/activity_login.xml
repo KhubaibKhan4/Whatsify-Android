@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/loginTxt"
+        android:id="@+id/UpdateProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -26,7 +26,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/loginTxt"
+        android:layout_below="@+id/UpdateProfile"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:elevation="10dp"
@@ -35,7 +35,7 @@
         app:hintTextColor="#009688">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_email_login"
+            android:id="@+id/edit_email_update"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawableEnd="@drawable/baseline_email_24"
@@ -57,7 +57,7 @@
         app:hintTextColor="#009688">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_pass_login"
+            android:id="@+id/edit_pass_update"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawableEnd="@drawable/baseline_password_24"

@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codespacepro.whatsify.Models.Users;
 import com.codespacepro.whatsify.R;
@@ -20,12 +19,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-
-import java.util.HashMap;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -51,7 +47,7 @@ public class SignupActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
         myRef = FirebaseDatabase.getInstance().getReference();
-        Signup = (Button) findViewById(R.id.btnSignup);
+        Signup = (Button) findViewById(R.id.btnUpdate);
 
 
         SignupToLogin.setOnClickListener(new View.OnClickListener() {
@@ -73,11 +69,11 @@ public class SignupActivity extends AppCompatActivity {
 
     private void init() {
 
-        Username = (TextInputEditText) findViewById(R.id.edit_username);
-        FullName = (TextInputEditText) findViewById(R.id.edit_fullname);
-        Email = (TextInputEditText) findViewById(R.id.edit_email_login);
-        Password = (TextInputEditText) findViewById(R.id.edit_pass_login);
-        CPassword = (TextInputEditText) findViewById(R.id.edit_cpass);
+        Username = (TextInputEditText) findViewById(R.id.edit_username_update);
+        FullName = (TextInputEditText) findViewById(R.id.edit_fullname_update);
+        Email = (TextInputEditText) findViewById(R.id.edit_email_update);
+        Password = (TextInputEditText) findViewById(R.id.edit_pass_update);
+        CPassword = (TextInputEditText) findViewById(R.id.edit_cpass_update);
         //  Signup = (Button) findViewById(R.id.btnSignup);
 
         Male = (RadioButton) findViewById(R.id.rd_male);

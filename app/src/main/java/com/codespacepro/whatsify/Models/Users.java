@@ -35,11 +35,15 @@ public class Users {
 
     }
 
+
+
     public Users( String fullname, String pic) {
         this.fullname = fullname;
         this.pic = pic;
 
     }
+
+
 
     public String getUsername() {
         return username;
