@@ -6,10 +6,9 @@ public class Chat {
     public Chat() {
     }
 
-    public Chat(String profile, String name) {
+    public Chat(String profile, String fullname) {
         this.profile = profile;
-        this.fullname = name;
-        this.lastmessage = lastmessage;
+        this.fullname = fullname;
     }
 
     public Chat(String profile, String name, String lastmessage) {

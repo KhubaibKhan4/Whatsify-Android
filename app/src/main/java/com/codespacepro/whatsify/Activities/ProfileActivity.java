@@ -26,10 +26,13 @@ import com.bumptech.glide.Glide;
 import com.codespacepro.whatsify.Models.Users;
 import com.codespacepro.whatsify.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,7 +61,6 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseDatabase db;
     DatabaseReference myRef;
 
-    String username, fullname, email, password;
     private static final int REQUEST_CODE_PICK_IMAGE = 1;
     private static final int REQUEST_CODE_PICK_COVER = 2;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 12;
@@ -66,6 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
     private StorageReference mStorage;
 
     ProgressDialog progressDialog;
+    ImageView backFromProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         init();
 
+        backFromProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         SelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -320,27 +329,6 @@ public class ProfileActivity extends AppCompatActivity {
         TextInputEditText Email = customeDialog.findViewById(R.id.edit_email_update);
         TextInputEditText Password = customeDialog.findViewById(R.id.edit_pass_update);
 
-        String usernameupdate = Username.getText().toString();
-        String fullnameupdate = FullName.getText().toString();
-        String emailupdate = Email.getText().toString();
-        String passwordupdate = Password.getText().toString();
-
-        if (TextUtils.isEmpty(usernameupdate)) {
-            Username.setError("Can't be Empty");
-        }
-
-        if (TextUtils.isEmpty(fullname)) {
-            Username.setError("Can't be Empty");
-        }
-
-        if (TextUtils.isEmpty(email)) {
-            Username.setError("Can't be Empty");
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            Username.setError("Can't be Empty");
-        }
-
 
         Cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -353,13 +341,58 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Users users = new Users(usernameupdate, fullnameupdate, emailupdate, passwordupdate);
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference reference = database.getReference("Users");
 
-                DatabaseReference userRef = database.getReference("Users/" + mAuth.getCurrentUser().getUid());
+                String usernameUpdate = Username.getText().toString().trim();
+                String fullnameUpdate = FullName.getText().toString().trim();
+                String emailUpdate = Email.getText().toString().trim();
+                String passwordUpdate = Password.getText().toString().trim();
 
+                if (TextUtils.isEmpty(usernameUpdate) || TextUtils.isEmpty(fullnameUpdate) || TextUtils.isEmpty(emailUpdate) || TextUtils.isEmpty(passwordUpdate)) {
+                    Toast.makeText(ProfileActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                } else {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user == null) {
+                        Toast.makeText(ProfileActivity.this, "Unable to update user information", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    String uid = user.getUid();
+                    reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Users existingUser = dataSnapshot.getValue(Users.class);
+                            if (existingUser == null) {
+                                Toast.makeText(ProfileActivity.this, "Unable to update user information", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            String pictureUrl = existingUser.getPic();
+                            String coverUrl = existingUser.getCover();
+                            String Gender = existingUser.getGender();
+                            Users updatedUser = new Users(usernameUpdate, fullnameUpdate, emailUpdate, passwordUpdate, Gender, pictureUrl, coverUrl);
+                            reference.child(uid).setValue(updatedUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    customeDialog.dismiss();
+                                    Toast.makeText(ProfileActivity.this, "Successfully updated user information", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    customeDialog.dismiss();
+                                    Toast.makeText(ProfileActivity.this, "Failed to update user information", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
 
-                userRef.setValue(users);
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            customeDialog.dismiss();
+                            Toast.makeText(ProfileActivity.this, "Failed to update user information", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
 
             }
         });
@@ -371,6 +404,7 @@ public class ProfileActivity extends AppCompatActivity {
         SelectImage = (ImageView) findViewById(R.id.select_image);
         Profile = (CircleImageView) findViewById(R.id.circleImageView_profile);
         EditProfilePic = (CardView) findViewById(R.id.edit_profile_pic);
+        backFromProfile = (ImageView) findViewById(R.id.backfromProfile);
 
         Username = (TextView) findViewById(R.id.username_profile);
         FullName = (TextView) findViewById(R.id.fullname_profile);

@@ -18,6 +18,8 @@ public class Users {
         this.cover = cover;
     }
 
+
+
     public Users(String username, String fullname, String email, String password, String gender) {
         this.username = username;
         this.fullname = fullname;

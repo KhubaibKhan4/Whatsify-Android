@@ -31,53 +31,38 @@ import java.util.List;
 public class ChatFragment extends Fragment {
 
 
-    private RecyclerView recyclerView;
-    private ChatAdapter chatAdapter;
-    private List<Chat> userList;
-
-    private DatabaseReference usersRef;
-    private FirebaseAuth mAuth;
-    private String currentUserId;
-    FirebaseDatabase firebaseDatabase;
-
-
     public ChatFragment() {
         // Required empty public constructor
     }
 
 
-    @SuppressLint("MissingInflatedId")
+    RecyclerView recyclerView;
+    ArrayList<Chat> usersArrayList = new ArrayList<>();
+    FirebaseDatabase database;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
 
+        database = FirebaseDatabase.getInstance();
         recyclerView = view.findViewById(R.id.recyclerviewchat);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        userList = new ArrayList<>();
-        chatAdapter = new ChatAdapter(getContext(), userList);
+        ChatAdapter chatAdapter = new ChatAdapter(getContext(), usersArrayList);
         recyclerView.setAdapter(chatAdapter);
 
-        mAuth = FirebaseAuth.getInstance();
-        currentUserId = mAuth.getCurrentUser().getUid();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        usersRef = firebaseDatabase.getReference().child("Users");
-
-        usersRef.addValueEventListener(new ValueEventListener() {
+        database.getReference("Users").addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userList.clear();
+                usersArrayList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Chat chat = dataSnapshot.getValue(Chat.class);
-                    if (mAuth.getCurrentUser().getUid().equals(mAuth.getCurrentUser().getUid())) { // exclude current user
-
-                    } else {
-                        Chat chat1 = new Chat(chat.getProfile(), chat.getFullname());
-                        userList.add(chat1);
+                    if (dataSnapshot.getValue() instanceof Chat) {
+                        Chat chat = dataSnapshot.getValue(Chat.class);
+                        usersArrayList.add(chat);
                     }
                 }
                 chatAdapter.notifyDataSetChanged();
@@ -85,9 +70,10 @@ public class ChatFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
+
 
         return view;
     }
