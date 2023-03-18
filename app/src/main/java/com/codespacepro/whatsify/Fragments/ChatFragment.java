@@ -37,8 +37,9 @@ public class ChatFragment extends Fragment {
 
 
     RecyclerView recyclerView;
-    ArrayList<Chat> usersArrayList = new ArrayList<>();
+    List<Chat> usersArrayList = new ArrayList<>();
     FirebaseDatabase database;
+    DatabaseReference myRef;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,25 +48,48 @@ public class ChatFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
 
         database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
         recyclerView = view.findViewById(R.id.recyclerviewchat);
-        ChatAdapter chatAdapter = new ChatAdapter(getContext(), usersArrayList);
-        recyclerView.setAdapter(chatAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        database.getReference("Users").addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
+//        database.getReference("Users").addValueEventListener(new ValueEventListener() {
+//            @SuppressLint("NotifyDataSetChanged")
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                usersArrayList.clear();
+//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                    if (dataSnapshot.getValue() instanceof Chat) {
+//                        Chat chat = dataSnapshot.getValue(Chat.class);
+//                        usersArrayList.add(chat);
+//                    }
+//                }
+//                chatAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                usersArrayList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    if (dataSnapshot.getValue() instanceof Chat) {
-                        Chat chat = dataSnapshot.getValue(Chat.class);
+                for (DataSnapshot dataSnapshot : snapshot.child("Users").getChildren()) {
+                    usersArrayList.clear();
+                    if (dataSnapshot.hasChild("email") && dataSnapshot.hasChild("fullname")) {
+                        String email = dataSnapshot.child("email").getValue(String.class);
+                        String fullname = dataSnapshot.child("fullname").getValue(String.class);
+
+
+                        Chat chat = new Chat(email, fullname);
                         usersArrayList.add(chat);
                     }
+
                 }
-                chatAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(new ChatAdapter(getContext(), usersArrayList));
             }
 
             @Override
@@ -73,7 +97,6 @@ public class ChatFragment extends Fragment {
 
             }
         });
-
 
         return view;
     }
